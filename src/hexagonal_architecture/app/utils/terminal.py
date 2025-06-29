@@ -29,7 +29,7 @@ class TerminalUtils:
         )  # Valor em verde
 
     @staticmethod
-    def menu_vertical(stdscr, options, y_pos=4, idx_inicial=0):
+    async def menu_vertical(stdscr, options, y_pos=4, idx_inicial=0):
         """Menu com opções dispostas verticalmente (uma embaixo da outra)"""
         curses.curs_set(0)
         TerminalUtils.__init_colors()
@@ -56,7 +56,7 @@ class TerminalUtils:
                 return idx, options[idx]
 
     @staticmethod
-    def menu_horizontal(stdscr, options, y_pos=3, idx_inicial=0):
+    async def menu_horizontal(stdscr, options, y_pos=3, idx_inicial=0):
         """Menu com opções dispostas horizontalmente (uma do lado da outra)"""
         curses.curs_set(0)
         TerminalUtils.__init_colors()

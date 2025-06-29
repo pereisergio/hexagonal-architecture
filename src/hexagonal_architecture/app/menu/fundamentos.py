@@ -7,7 +7,7 @@ class MenuFundamentos:
     async def menu(stdscr):
         while True:
             TerminalUtils.titulo(stdscr, "Fundamentos")
-            idx, option = TerminalUtils.menu_vertical(
+            idx, option = await TerminalUtils.menu_vertical(
                 stdscr,
                 [
                     "1. Polimorfismo",

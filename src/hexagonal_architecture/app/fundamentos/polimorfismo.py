@@ -8,7 +8,7 @@ class Polimorfismo:
     @staticmethod
     async def menu(stdscr):
         TerminalUtils.titulo(stdscr, "Polimorfismo")
-        idx, _ = TerminalUtils.menu_vertical(
+        idx, _ = await TerminalUtils.menu_vertical(
             stdscr, ["1. Ferrari", "2. Fusca", "3. Voltar"]
         )
         match idx:
@@ -33,7 +33,7 @@ class Polimorfismo:
                 stdscr, 5, f"Velocidade Atual: ", f"{carro.velocidade_atual} km/h"
             )
             TerminalUtils.exibir_mensagem(stdscr, 7, "Escolha uma ação:")
-            idx, _ = TerminalUtils.menu_horizontal(
+            idx, _ = await TerminalUtils.menu_horizontal(
                 stdscr, ["Acelerar", "Frear", "Sair"], y_pos=9, idx_inicial=ultimo_idx
             )
             ultimo_idx = idx
