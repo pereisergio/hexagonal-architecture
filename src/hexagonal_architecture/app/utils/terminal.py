@@ -18,6 +18,17 @@ class TerminalUtils:
         stdscr.clear()
 
     @staticmethod
+    def exibir_mensagem(stdscr, y_pos, mensagem: str, cor_pair=5):
+        stdscr.addstr(y_pos, 1, mensagem, curses.color_pair(cor_pair))
+
+    @staticmethod
+    def exibir_chave_valor(stdscr, y_pos, chave: str, valor: str | float):
+        stdscr.addstr(y_pos, 1, chave, curses.color_pair(12))  # Chave em amarelo
+        stdscr.addstr(
+            y_pos, 1 + len(chave), str(valor), curses.color_pair(2)
+        )  # Valor em verde
+
+    @staticmethod
     def menu_vertical(stdscr, options, y_pos=4, idx_inicial=0):
         """Menu com opções dispostas verticalmente (uma embaixo da outra)"""
         curses.curs_set(0)
@@ -79,17 +90,16 @@ class TerminalUtils:
     def __init_colors():
         """Função auxiliar para inicializar todas as cores"""
         curses.start_color()
-        # Texto colorido com fundo preto
+
         curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
         curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
         curses.init_pair(4, curses.COLOR_CYAN, curses.COLOR_BLACK)
         curses.init_pair(5, curses.COLOR_WHITE, curses.COLOR_BLACK)
-        curses.init_pair(10, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
-
-        # Texto com fundos coloridos
         curses.init_pair(6, curses.COLOR_BLACK, curses.COLOR_WHITE)
         curses.init_pair(7, curses.COLOR_WHITE, curses.COLOR_BLUE)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_RED)
         curses.init_pair(9, curses.COLOR_YELLOW, curses.COLOR_WHITE)
         curses.init_pair(11, curses.COLOR_RED, curses.COLOR_WHITE)
+        curses.init_pair(10, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
+        curses.init_pair(12, curses.COLOR_YELLOW, curses.COLOR_BLACK)
