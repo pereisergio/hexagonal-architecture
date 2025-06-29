@@ -6,7 +6,6 @@ class TerminalUtils:
     def titulo(stdscr, titulo, cor_pair=5):
         stdscr.clear()
         TerminalUtils.desenhar_titulo(stdscr, titulo, cor_pair)
-        stdscr.refresh()
 
     @staticmethod
     def desenhar_titulo(stdscr, titulo, cor_pair=5):
@@ -17,24 +16,23 @@ class TerminalUtils:
     @staticmethod
     def limpar(stdscr):
         stdscr.clear()
-        stdscr.refresh()
 
     @staticmethod
-    def menu_vertical(stdscr, options):
+    def menu_vertical(stdscr, options, y_pos=4, idx_inicial=0):
         """Menu com opções dispostas verticalmente (uma embaixo da outra)"""
         curses.curs_set(0)
         TerminalUtils.__init_colors()
-        idx = 0
+        idx = idx_inicial  # Inicia com o índice especificado
 
         while True:
             # Exibe opções verticalmente
             for i, opcao in enumerate(options):
                 if i == idx:
                     stdscr.attron(curses.A_REVERSE)
-                    stdscr.addstr(i + 4, 2, opcao)
+                    stdscr.addstr(i + y_pos, 2, opcao)
                     stdscr.attroff(curses.A_REVERSE)
                 else:
-                    stdscr.addstr(i + 4, 2, opcao)
+                    stdscr.addstr(i + y_pos, 2, opcao)
 
             stdscr.refresh()
             key = stdscr.getch()
@@ -47,11 +45,11 @@ class TerminalUtils:
                 return idx, options[idx]
 
     @staticmethod
-    def menu_horizontal(stdscr, options):
+    def menu_horizontal(stdscr, options, y_pos=3, idx_inicial=0):
         """Menu com opções dispostas horizontalmente (uma do lado da outra)"""
         curses.curs_set(0)
         TerminalUtils.__init_colors()
-        idx = 0
+        idx = idx_inicial  # Inicia com o índice especificado
 
         while True:
             # Exibe opções horizontalmente
@@ -59,10 +57,10 @@ class TerminalUtils:
             for i, opcao in enumerate(options):
                 if i == idx:
                     stdscr.attron(curses.A_REVERSE)
-                    stdscr.addstr(3, x_pos, f" {opcao} ", curses.color_pair(11))
+                    stdscr.addstr(y_pos, x_pos, f" {opcao} ", curses.color_pair(11))
                     stdscr.attroff(curses.A_REVERSE)
                 else:
-                    stdscr.addstr(3, x_pos, f" {opcao} ")
+                    stdscr.addstr(y_pos, x_pos, f" {opcao} ")
 
                 # Calcula próxima posição X (largura da opção + espaços)
                 x_pos += len(opcao) + 4

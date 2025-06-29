@@ -1,3 +1,4 @@
+from hexagonal_architecture.app.fundamentos.polimorfismo import Polimorfismo
 from hexagonal_architecture.app.utils.terminal import TerminalUtils
 
 
@@ -16,7 +17,7 @@ class MenuFundamentos:
             )
             match idx:
                 case 0:
-                    print("Polimorfismo ainda não implementado.")
+                    await Polimorfismo.menu(stdscr)
                 case 1:
                     print(
                         "Princípio da Inversão de Dependência (DIP) ainda não implementado."
