@@ -1,3 +1,4 @@
+from hexagonal_architecture.app.fundamentos.dependency_inversion import DIP
 from hexagonal_architecture.app.fundamentos.polimorfismo import Polimorfismo
 from hexagonal_architecture.app.utils.terminal import TerminalUtils
 
@@ -19,8 +20,6 @@ class MenuFundamentos:
                 case 0:
                     await Polimorfismo.menu(stdscr)
                 case 1:
-                    print(
-                        "Princípio da Inversão de Dependência (DIP) ainda não implementado."
-                    )
+                    await DIP.menu(stdscr)
                 case 2:
                     return

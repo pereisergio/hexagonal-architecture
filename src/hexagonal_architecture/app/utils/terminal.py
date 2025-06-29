@@ -87,6 +87,22 @@ class TerminalUtils:
                 return idx, options[idx]
 
     @staticmethod
+    def esperar_enter(stdscr, y_pos=None, mensagem="Pressione ENTER para continuar..."):
+        if y_pos is None:
+            # Se não especificar posição, pega a altura da tela menos 2 linhas
+            height, _ = stdscr.getmaxyx()
+            y_pos = height - 2
+
+        stdscr.addstr(y_pos, 1, mensagem, curses.color_pair(5))
+        stdscr.refresh()
+
+        # Loop até pressionar ENTER
+        while True:
+            key = stdscr.getch()
+            if key in [curses.KEY_ENTER, 10, 13]:  # ENTER pode ser 10 ou 13
+                break
+
+    @staticmethod
     def __init_colors():
         """Função auxiliar para inicializar todas as cores"""
         curses.start_color()
