@@ -1,12 +1,12 @@
 import asyncio
 import curses
 
-from hexagonal_architecture.app.menu.principal import MenuPrincipal
+from hexagonal_architecture.app.menu.main import MainMenu
 
 
 async def async_wrapper(stdscr):
     """Wrapper assíncrono para a função menu_principal"""
-    await MenuPrincipal.menu(stdscr)
+    await MainMenu.menu(stdscr)
 
 
 def main():

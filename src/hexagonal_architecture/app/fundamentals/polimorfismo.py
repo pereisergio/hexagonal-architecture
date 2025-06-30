@@ -10,7 +10,7 @@ class Polimorfismo:
     async def menu(stdscr):
         TerminalUtils.titulo(stdscr, "Polimorfismo")
         idx, _ = await TerminalUtils.menu_vertical(
-            stdscr, ["1. Ferrari", "2. Fusca", "3. Civic", "4. Voltar"]
+            stdscr, ["1. Ferrari", "2. Fusca", "3. Civic", "Voltar"]
         )
         match idx:
             case 0:
@@ -46,5 +46,5 @@ class Polimorfismo:
                     carro.acelerar()
                 case 1:
                     carro.frear()
-                case 2:
-                    break
+                case _:
+                    return

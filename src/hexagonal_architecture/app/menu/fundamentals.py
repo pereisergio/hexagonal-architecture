@@ -3,7 +3,7 @@ from hexagonal_architecture.app.fundamentals.polimorfismo import Polimorfismo
 from hexagonal_architecture.app.utils.terminal import TerminalUtils
 
 
-class MenuFundamentos:
+class FundamentalsMenu:
     @staticmethod
     async def menu(stdscr):
         while True:
@@ -13,7 +13,7 @@ class MenuFundamentos:
                 [
                     "1. Polimorfismo",
                     "2. Princípio da Inversão de Dependência (DIP)",
-                    "3. Voltar",
+                    "Voltar",
                 ],
             )
             match idx:
@@ -21,5 +21,5 @@ class MenuFundamentos:
                     await Polimorfismo.menu(stdscr)
                 case 1:
                     await DIP.menu(stdscr)
-                case 2:
+                case _:
                     return

@@ -126,7 +126,7 @@ class TerminalUtils:
                 return idx, options[idx]
 
     @staticmethod
-    def esperar_enter(stdscr, mensagem="Pressione ENTER para continuar..."):
+    async def esperar_enter(stdscr, mensagem="Pressione ENTER para continuar..."):
         """Espera ENTER posicionando automaticamente na próxima linha disponível"""
         y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
         TerminalUtils.__init_colors()

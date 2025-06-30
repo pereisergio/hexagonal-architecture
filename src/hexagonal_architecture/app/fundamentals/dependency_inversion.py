@@ -11,7 +11,7 @@ class DIP:
     async def menu(stdscr):
         TerminalUtils.titulo(stdscr, "Princípio da Inversão de Dependência (DIP)")
         idx, _ = await TerminalUtils.menu_horizontal(
-            stdscr, ["1. Ferrari", "2. Fusca", "3. Civic", "4. Voltar"]
+            stdscr, ["1. Ferrari", "2. Fusca", "3. Civic", "Voltar"]
         )
         match idx:
             case 0:
@@ -27,4 +27,4 @@ class DIP:
         curses_output = CursesOutput(stdscr)
         TerminalUtils.titulo(stdscr, f"Corrida com DIP - {carro.__class__.__name__}")
         corrida(carro, curses_output)
-        TerminalUtils.esperar_enter(stdscr, "Pressione ENTER para voltar...")
+        await TerminalUtils.esperar_enter(stdscr, "Pressione ENTER para voltar...")
