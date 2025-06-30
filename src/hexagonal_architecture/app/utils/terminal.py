@@ -140,6 +140,135 @@ class TerminalUtils:
                 break
 
     @staticmethod
+    async def campo_required(
+        stdscr, label: str, valor_padrao: str = "", cor_pair=12
+    ) -> str:
+        """
+        Exibe um campo obrigatório que nunca retorna valor vazio.
+        Se não houver entrada, usa valor_padrao (se válido).
+        Se valor_padrao for inválido, fica em loop até entrada válida.
+        """
+        while True:
+            y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
+            TerminalUtils.__init_colors()
+
+            # Exibe o label
+            stdscr.addstr(y_pos, 1, label, curses.color_pair(cor_pair))
+
+            # Exibe o valor padrão se existir e for válido
+            if valor_padrao and valor_padrao.strip():
+                stdscr.attron(curses.color_pair(13))
+                stdscr.addstr(y_pos, len(label) + 2, valor_padrao)
+                stdscr.attroff(curses.color_pair(13))
+
+            stdscr.refresh()
+
+            # Ativa o modo de entrada
+            curses.echo()
+            curses.curs_set(1)
+
+            try:
+                # Posiciona o cursor após o label
+                stdscr.move(y_pos, len(label) + 2)
+
+                # Implementa captura manual para apagar valor padrão ao digitar
+                entrada = ""
+                valor_padrao_apagado = False
+
+                while True:
+                    key = stdscr.getch()
+
+                    if key in [curses.KEY_ENTER, 10, 13]:  # Enter
+                        break
+                    elif key in [curses.KEY_BACKSPACE, 127, 8]:  # Backspace
+                        if entrada:
+                            entrada = entrada[:-1]
+                            # Reescreve a linha
+                            stdscr.move(y_pos, len(label) + 2)
+                            stdscr.clrtoeol()
+                            if entrada:
+                                stdscr.addstr(
+                                    y_pos,
+                                    len(label) + 2,
+                                    entrada,
+                                    curses.color_pair(13),
+                                )
+                            stdscr.move(y_pos, len(label) + 2 + len(entrada))
+                    elif key == 27:  # ESC - cancela e reinicia o campo
+                        entrada = ""
+                        valor_padrao_apagado = False
+                        stdscr.move(y_pos, len(label) + 2)
+                        stdscr.clrtoeol()
+                        if valor_padrao and valor_padrao.strip():
+                            stdscr.addstr(
+                                y_pos,
+                                len(label) + 2,
+                                valor_padrao,
+                                curses.color_pair(13),
+                            )
+                        stdscr.move(y_pos, len(label) + 2)
+                    elif 32 <= key <= 126:  # Caracteres imprimíveis
+                        # Se é a primeira tecla digitada e há valor padrão, apaga o valor padrão
+                        if (
+                            not valor_padrao_apagado
+                            and valor_padrao
+                            and valor_padrao.strip()
+                        ):
+                            stdscr.move(y_pos, len(label) + 2)
+                            stdscr.clrtoeol()  # Apaga o valor padrão
+                            valor_padrao_apagado = True
+
+                        # Adiciona o caractere digitado
+                        entrada += chr(key)
+
+                        # Reescreve a entrada
+                        stdscr.move(y_pos, len(label) + 2)
+                        stdscr.addstr(
+                            y_pos, len(label) + 2, entrada, curses.color_pair(13)
+                        )
+                        stdscr.move(y_pos, len(label) + 2 + len(entrada))
+
+                    stdscr.refresh()
+
+                # Se digitou algo válido, retorna
+                if entrada.strip():
+                    return entrada.strip()
+
+                # Se não digitou nada, verifica se há valor padrão válido
+                if valor_padrao and valor_padrao.strip():
+                    # Reexibe o valor padrão na tela
+                    stdscr.addstr(
+                        y_pos, len(label) + 2, valor_padrao, curses.color_pair(13)
+                    )
+                    stdscr.refresh()
+                    return valor_padrao.strip()
+
+                # Se chegou aqui, não há entrada válida nem valor padrão válido
+                # Mostra erro e continua o loop
+                error_y = y_pos + 1
+                height, _ = stdscr.getmaxyx()
+                if error_y < height - 1:
+                    stdscr.addstr(
+                        error_y,
+                        1,
+                        "Campo obrigatório! Digite um valor válido.",
+                        curses.color_pair(3),
+                    )
+                    stdscr.refresh()
+                    curses.napms(1500)  # Pausa por 1.5 segundos
+                    # Limpa a mensagem de erro
+                    stdscr.move(error_y, 1)
+                    stdscr.clrtoeol()
+                    stdscr.refresh()
+
+            except curses.error:
+                # Se der erro, continua o loop
+                pass
+            finally:
+                curses.noecho()
+                curses.curs_set(0)
+
+    @staticmethod
     def __init_colors():
         """Função auxiliar para inicializar todas as cores"""
         curses.start_color()
@@ -156,3 +285,4 @@ class TerminalUtils:
         curses.init_pair(11, curses.COLOR_RED, curses.COLOR_WHITE)
         curses.init_pair(10, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
         curses.init_pair(12, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+        curses.init_pair(13, curses.COLOR_MAGENTA, curses.COLOR_WHITE)
