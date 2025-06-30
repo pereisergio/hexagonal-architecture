@@ -15,4 +15,5 @@ class Register:
 
         usuario = ConcreteUser(user_id=user_id, name=name, email=email, password=senha)
         await UserRegister().execute(user=usuario)
+        TerminalUtils.exibir_mensagem(stdscr, "Usuário registrado com sucesso!", 2)
         await TerminalUtils.esperar_enter(stdscr)
