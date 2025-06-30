@@ -1,5 +1,5 @@
-from hexagonal_architecture.app.fundamentos.dependency_inversion import DIP
-from hexagonal_architecture.app.fundamentos.polimorfismo import Polimorfismo
+from hexagonal_architecture.app.fundamentals.dependency_inversion import DIP
+from hexagonal_architecture.app.fundamentals.polimorfismo import Polimorfismo
 from hexagonal_architecture.app.utils.terminal import TerminalUtils
 
 

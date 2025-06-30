@@ -1,7 +1,8 @@
 from hexagonal_architecture.app.utils.terminal import TerminalUtils
-from hexagonal_architecture.core.fundamentos.carro import Carro
-from hexagonal_architecture.core.fundamentos.ferrari import Ferrari
-from hexagonal_architecture.core.fundamentos.fusca import Fusca
+from hexagonal_architecture.core.fundamentals.carro import Carro
+from hexagonal_architecture.core.fundamentals.civic import Civic
+from hexagonal_architecture.core.fundamentals.ferrari import Ferrari
+from hexagonal_architecture.core.fundamentals.fusca import Fusca
 
 
 class Polimorfismo:
@@ -9,7 +10,7 @@ class Polimorfismo:
     async def menu(stdscr):
         TerminalUtils.titulo(stdscr, "Polimorfismo")
         idx, _ = await TerminalUtils.menu_vertical(
-            stdscr, ["1. Ferrari", "2. Fusca", "3. Voltar"]
+            stdscr, ["1. Ferrari", "2. Fusca", "3. Civic", "4. Voltar"]
         )
         match idx:
             case 0:
@@ -19,6 +20,9 @@ class Polimorfismo:
                 TerminalUtils.limpar(stdscr)
                 await Polimorfismo.executar(stdscr, Fusca())
             case 2:
+                TerminalUtils.limpar(stdscr)
+                await Polimorfismo.executar(stdscr, Civic())
+            case _:
                 return
 
     @staticmethod
@@ -33,7 +37,7 @@ class Polimorfismo:
                 stdscr, "Velocidade Atual: ", f"{carro.velocidade_atual} km/h"
             )
             TerminalUtils.exibir_mensagem(stdscr, "Escolha uma ação:")
-            idx, _ = TerminalUtils.menu_vertical(
+            idx, _ = await TerminalUtils.menu_horizontal(
                 stdscr, ["Acelerar", "Frear", "Sair"], idx_inicial=ultimo_idx
             )
             ultimo_idx = idx  # Salva a opção selecionada para a próxima iteração

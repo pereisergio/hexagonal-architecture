@@ -1,8 +1,8 @@
 from hexagonal_architecture.app.utils.terminal import TerminalUtils
-from hexagonal_architecture.core.fundamentos.carro import Carro
-from hexagonal_architecture.core.fundamentos.corrida import corrida
-from hexagonal_architecture.core.fundamentos.ferrari import Ferrari
-from hexagonal_architecture.core.fundamentos.fusca import Fusca
+from hexagonal_architecture.core.fundamentals.civic import Civic
+from hexagonal_architecture.core.fundamentals.corrida import corrida
+from hexagonal_architecture.core.fundamentals.ferrari import Ferrari
+from hexagonal_architecture.core.fundamentals.fusca import Fusca
 from hexagonal_architecture.utils.output_interface import CursesOutput
 
 
@@ -11,15 +11,16 @@ class DIP:
     async def menu(stdscr):
         TerminalUtils.titulo(stdscr, "Princípio da Inversão de Dependência (DIP)")
         idx, _ = await TerminalUtils.menu_horizontal(
-            stdscr, ["1. Ferrari", "2. Fusca", "3. Voltar"]
+            stdscr, ["1. Ferrari", "2. Fusca", "3. Civic", "4. Voltar"]
         )
-        carro: Carro | None = None
         match idx:
             case 0:
                 carro = Ferrari()
             case 1:
                 carro = Fusca()
             case 2:
+                carro = Civic()
+            case _:
                 return
 
         TerminalUtils.limpar(stdscr)

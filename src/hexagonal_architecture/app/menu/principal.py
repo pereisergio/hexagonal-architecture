@@ -1,4 +1,4 @@
-from hexagonal_architecture.app.menu.fundamentos import MenuFundamentos
+from hexagonal_architecture.app.menu.fundamentals import MenuFundamentos
 from hexagonal_architecture.app.utils.terminal import TerminalUtils
 
 

@@ -1,4 +1,4 @@
-from hexagonal_architecture.core.fundamentos.carro import Carro
+from hexagonal_architecture.core.fundamentals.carro import Carro
 from hexagonal_architecture.utils.output_interface import OutputInterface
 
 
