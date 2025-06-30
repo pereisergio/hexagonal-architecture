@@ -3,6 +3,35 @@ import curses
 
 class TerminalUtils:
     @staticmethod
+    def _get_next_available_line(stdscr) -> int:
+        """
+        Detecta a próxima linha disponível para escrita, verificando qual foi
+        a última linha que contém informação na tela
+        """
+        height, width = stdscr.getmaxyx()
+
+        # Verifica de baixo para cima qual é a última linha com conteúdo
+        for y in range(height - 1, -1, -1):
+            line_content = ""
+            try:
+                # Lê o conteúdo da linha atual
+                for x in range(width - 1):
+                    char = stdscr.inch(y, x) & 0xFF  # Pega apenas o caractere
+                    if char != 32:  # 32 = espaço em ASCII
+                        line_content += chr(char)
+
+                # Se encontrou conteúdo não vazio, a próxima linha disponível é y + 1
+                if line_content.strip():
+                    return min(y + 1, height - 1)  # Garante que não ultrapasse a tela
+
+            except curses.error:
+                # Ignora erros ao ler posições inválidas
+                continue
+
+        # Se não encontrou nenhuma linha com conteúdo, retorna linha 3 (após título)
+        return 0
+
+    @staticmethod
     def titulo(stdscr, titulo, cor_pair=5):
         stdscr.clear()
         TerminalUtils.desenhar_titulo(stdscr, titulo, cor_pair)
@@ -18,19 +47,28 @@ class TerminalUtils:
         stdscr.clear()
 
     @staticmethod
-    def exibir_mensagem(stdscr, y_pos, mensagem: str, cor_pair=5):
+    def exibir_mensagem(stdscr, mensagem: str, cor_pair=5):
+        """Exibe uma mensagem na próxima linha disponível"""
+        y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
+        TerminalUtils.__init_colors()
         stdscr.addstr(y_pos, 1, mensagem, curses.color_pair(cor_pair))
+        stdscr.refresh()
 
     @staticmethod
-    def exibir_chave_valor(stdscr, y_pos, chave: str, valor: str | float):
+    def exibir_chave_valor(stdscr, chave: str, valor: str | float):
+        """Exibe chave e valor na próxima linha disponível"""
+        y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
+        TerminalUtils.__init_colors()
         stdscr.addstr(y_pos, 1, chave, curses.color_pair(12))  # Chave em amarelo
         stdscr.addstr(
             y_pos, 1 + len(chave), str(valor), curses.color_pair(2)
         )  # Valor em verde
+        stdscr.refresh()
 
     @staticmethod
-    async def menu_vertical(stdscr, options, y_pos=4, idx_inicial=0):
-        """Menu com opções dispostas verticalmente (uma embaixo da outra)"""
+    async def menu_vertical(stdscr, options, idx_inicial=0):
+        """Menu com opções dispostas verticalmente, posicionado automaticamente"""
+        y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
         curses.curs_set(0)
         TerminalUtils.__init_colors()
         idx = idx_inicial  # Inicia com o índice especificado
@@ -56,8 +94,9 @@ class TerminalUtils:
                 return idx, options[idx]
 
     @staticmethod
-    async def menu_horizontal(stdscr, options, y_pos=3, idx_inicial=0):
-        """Menu com opções dispostas horizontalmente (uma do lado da outra)"""
+    async def menu_horizontal(stdscr, options, idx_inicial=0):
+        """Menu com opções dispostas horizontalmente, posicionado automaticamente"""
+        y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
         curses.curs_set(0)
         TerminalUtils.__init_colors()
         idx = idx_inicial  # Inicia com o índice especificado
@@ -87,12 +126,10 @@ class TerminalUtils:
                 return idx, options[idx]
 
     @staticmethod
-    def esperar_enter(stdscr, y_pos=None, mensagem="Pressione ENTER para continuar..."):
-        if y_pos is None:
-            # Se não especificar posição, pega a altura da tela menos 2 linhas
-            height, _ = stdscr.getmaxyx()
-            y_pos = height - 2
-
+    def esperar_enter(stdscr, mensagem="Pressione ENTER para continuar..."):
+        """Espera ENTER posicionando automaticamente na próxima linha disponível"""
+        y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
+        TerminalUtils.__init_colors()
         stdscr.addstr(y_pos, 1, mensagem, curses.color_pair(5))
         stdscr.refresh()
 

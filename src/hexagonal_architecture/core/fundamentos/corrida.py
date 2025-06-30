@@ -1,16 +1,13 @@
-from hexagonal_architecture.core.fundamentos.fusca import Fusca
+from hexagonal_architecture.core.fundamentos.carro import Carro
+from hexagonal_architecture.utils.output_interface import OutputInterface
 
 
-def corrida(stdscr):
-    carro = Fusca()
+def corrida(carro: Carro, output: OutputInterface):
     array = range(0, 10)
-    count = 1
     for _ in array:
         carro.acelerar()
-        stdscr.addstr(count, 1, f"Velocidade: {carro.velocidade_atual} km/h")
-        count += 1
+        output.write(f"Velocidade: {carro.velocidade_atual} km/h")
 
     for _ in array:
         carro.frear()
-        stdscr.addstr(count, 1, f"Velocidade: {carro.velocidade_atual} km/h")
-        count += 1
+        output.write(f"Velocidade: {carro.velocidade_atual} km/h")

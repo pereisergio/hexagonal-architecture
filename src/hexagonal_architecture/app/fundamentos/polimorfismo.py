@@ -27,20 +27,20 @@ class Polimorfismo:
         while True:
             TerminalUtils.titulo(stdscr, f"Polimorfismo - {carro.__class__.__name__}")
             TerminalUtils.exibir_chave_valor(
-                stdscr, 4, f"Velocidade Máxima: ", f"{carro.velocidade_maxima} km/h"
+                stdscr, "Velocidade Máxima: ", f"{carro.velocidade_maxima} km/h"
             )
             TerminalUtils.exibir_chave_valor(
-                stdscr, 5, f"Velocidade Atual: ", f"{carro.velocidade_atual} km/h"
+                stdscr, "Velocidade Atual: ", f"{carro.velocidade_atual} km/h"
             )
-            TerminalUtils.exibir_mensagem(stdscr, 7, "Escolha uma ação:")
-            idx, _ = await TerminalUtils.menu_horizontal(
-                stdscr, ["Acelerar", "Frear", "Sair"], y_pos=9, idx_inicial=ultimo_idx
+            TerminalUtils.exibir_mensagem(stdscr, "Escolha uma ação:")
+            idx, _ = TerminalUtils.menu_vertical(
+                stdscr, ["Acelerar", "Frear", "Sair"], idx_inicial=ultimo_idx
             )
-            ultimo_idx = idx
+            ultimo_idx = idx  # Salva a opção selecionada para a próxima iteração
             match idx:
                 case 0:
                     carro.acelerar()
                 case 1:
                     carro.frear()
                 case 2:
-                    return
+                    break
