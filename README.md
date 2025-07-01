@@ -12,9 +12,9 @@ O sistema simula um menu de terminal, onde é possível navegar entre exemplos d
 - **Arquitetura Hexagonal:** O projeto separa claramente o núcleo de domínio das interfaces externas (como terminal), promovendo baixo acoplamento e alta coesão.
 
 ## Estrutura do Projeto
-- `src/hexagonal_architecture/core/`: Núcleo de domínio (modelos, regras de negócio, interfaces)
-- `src/hexagonal_architecture/app/`: Camada de aplicação (menus, fluxos de interação)
-- `src/hexagonal_architecture/utils/`: Utilitários e interfaces de saída
+- `hexagonal_architecture/core/`: Núcleo de domínio (modelos, regras de negócio, interfaces)
+- `hexagonal_architecture/app/`: Camada de aplicação (menus, fluxos de interação)
+- `hexagonal_architecture/utils/`: Utilitários e interfaces de saída
 
 ## Pré-requisitos
 - Python 3.10 ou superior

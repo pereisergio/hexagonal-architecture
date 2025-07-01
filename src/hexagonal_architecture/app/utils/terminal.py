@@ -55,6 +55,14 @@ class TerminalUtils:
         stdscr.refresh()
 
     @staticmethod
+    def exibir_sucesso(stdscr, mensagem: str, cor_pair=5):
+        TerminalUtils.exibir_mensagem(stdscr, mensagem, 2)
+
+    @staticmethod
+    def exibir_erro(stdscr, mensagem: str, cor_pair=5):
+        TerminalUtils.exibir_mensagem(stdscr, mensagem, 3)
+
+    @staticmethod
     def exibir_chave_valor(stdscr, chave: str, valor: str | float):
         """Exibe chave e valor na próxima linha disponível"""
         y_pos = TerminalUtils._get_next_available_line(stdscr) + 1
