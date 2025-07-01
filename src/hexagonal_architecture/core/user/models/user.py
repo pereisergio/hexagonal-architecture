@@ -18,3 +18,9 @@ class ConcreteUser(User):
         self, name: str, email: str, password: str, user_id: Optional[str] = None
     ):
         super().__init__(name, email, password, user_id)
+
+    def __str__(self):
+        return str(self.__dict__)
+
+    def __repr__(self):
+        return f"ConcreteUser({self.__dict__})"
